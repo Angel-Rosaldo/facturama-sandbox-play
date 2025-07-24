@@ -30,8 +30,9 @@ const ApiTestCard = ({ title, description, endpoint, baseUrl = "https://apisandb
   const [response, setResponse] = useState<string>("");
   const [parameters, setParameters] = useState<Record<string, string>>({});
   const [requestBody, setRequestBody] = useState(endpoint.body || "");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [headers, setHeaders] = useState({
-    'Authorization': 'Basic [Base64(username:password)]',
     'Content-Type': 'application/json'
   });
   const { toast } = useToast();
@@ -76,11 +77,16 @@ const ApiTestCard = ({ title, description, endpoint, baseUrl = "https://apisandb
 
     try {
       const url = buildUrl();
+      // Create proper Basic Auth header
+      const authString = `${username}:${password}`;
+      const base64Auth = btoa(authString);
+      
       const options: RequestInit = {
         method: endpoint.method,
         headers: {
           ...headers,
           'Content-Type': 'application/json',
+          'Authorization': `Basic ${base64Auth}`,
         },
         mode: 'cors',
       };
@@ -159,21 +165,31 @@ const ApiTestCard = ({ title, description, endpoint, baseUrl = "https://apisandb
 
         <CollapsibleContent>
           <CardContent className="space-y-6">
-            {/* Headers */}
+            {/* Authentication */}
             <div>
-              <Label className="text-sm font-medium mb-2 block">Headers</Label>
+              <Label className="text-sm font-medium mb-2 block">Autenticación Facturama</Label>
               <div className="space-y-2">
                 <div className="grid grid-cols-2 gap-2">
-                  <Input
-                    placeholder="Authorization"
-                    value="Authorization"
-                    disabled
-                  />
-                  <Input
-                    placeholder="Basic [Base64(username:password)]"
-                    value={headers.Authorization}
-                    onChange={(e) => setHeaders({ ...headers, Authorization: e.target.value })}
-                  />
+                  <div>
+                    <Label className="text-xs">Usuario</Label>
+                    <Input
+                      placeholder="Tu usuario de Facturama"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Contraseña</Label>
+                    <Input
+                      type="password"
+                      placeholder="Tu contraseña de Facturama"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Se generará automáticamente el header Basic Auth con tus credenciales
                 </div>
               </div>
             </div>
