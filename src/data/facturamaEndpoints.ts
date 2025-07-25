@@ -193,6 +193,7 @@ export const facturamaApiCategories: ApiCategory[] = [
             "Name": "Cliente de Prueba S.A. de C.V.",
             "Rfc": "XAXX010101000",
             "Email": "cliente@ejemplo.com",
+            "CfdiUse": "G03",
             "Address": {
               "Street": "Calle Principal",
               "ExteriorNumber": "123",
