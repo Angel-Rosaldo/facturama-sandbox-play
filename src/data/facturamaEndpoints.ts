@@ -25,7 +25,6 @@ export const facturamaApiCategories: ApiCategory[] = [
           path: "/api/3/cfdis",
           description: "Crea una nueva factura electrónica",
           body: JSON.stringify({
-            "Serie": "A",
             "Currency": "MXN",
             "ExpeditionPlace": "78000",
             "PaymentConditions": "CONTADO",
@@ -35,7 +34,9 @@ export const facturamaApiCategories: ApiCategory[] = [
             "Receiver": {
               "Rfc": "XAXX010101000",
               "Name": "Cliente de Prueba",
-              "CfdiUse": "G03"
+              "CfdiUse": "S01",
+              "FiscalRegime": "616",
+              "TaxZipCode": "78000"
             },
             "Items": [
               {
@@ -44,19 +45,20 @@ export const facturamaApiCategories: ApiCategory[] = [
                 "Description": "Producto de prueba",
                 "Unit": "H87",
                 "UnitCode": "H87",
-                "UnitPrice": 100.00,
+                "UnitPrice": 100,
                 "Quantity": 1,
-                "Subtotal": 100.00,
+                "Subtotal": 100,
+                "TaxObject": "02",
                 "Taxes": [
                   {
-                    "Total": 16.00,
+                    "Total": 16,
                     "Name": "IVA",
-                    "Base": 100.00,
+                    "Base": 100,
                     "Rate": 0.16,
                     "IsRetention": false
                   }
                 ],
-                "Total": 116.00
+                "Total": 116
               }
             ]
           }, null, 2)
